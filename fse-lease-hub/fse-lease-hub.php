@@ -13,13 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
      die;
 }
 
-/**
- * Register the block.
- */
-function fseleasehub_register_block() {
-	//register_block_type( __DIR__ . '/build' );
-}
+require_once __DIR__ . '/blocks/leases-embed/leases-embed.php';
 
 add_action( 'init', 'fseleasehub_register_block' );
-
 ?>
