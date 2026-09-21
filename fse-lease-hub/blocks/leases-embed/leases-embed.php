@@ -10,6 +10,7 @@ function fseleasehub_register_block() {
 		return;
 	}
 	$block = register_block_type( 'fse-lease-hub/leases', [
+		'api_version' => 3,
 		'title' => 'FSE Lease Hub Leases',
 		'category' => 'embeds',
 		'icon' => 'airplane',
@@ -46,6 +47,16 @@ function fseleasehub_register_block() {
 				'enum'    => ['newest', 'price_asc', 'price_desc', 'registration'],
 				'default' => 'newest',
 			],
+			'show' => [
+				'label'   => 'Information to show',
+				'type'    => 'array',
+				'items'   => [
+					'type' => 'string',
+				],
+				'enum'    => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
+				'default' => ['Price', 'Location'],
+				'autoGenerateControl' => true,
+			],
 			'limit' => [
 				'label'   => 'Max aircraft',
 				'type'    => 'integer',
@@ -56,14 +67,6 @@ function fseleasehub_register_block() {
 				'type'    => 'integer',
 				'default' => 700,
 			],
-			/*
-			'show' => [
-				'label'   => 'Information to show',
-				'type'    => 'array',
-				'enum'    => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
-				'default' => ['Price'],
-			],
-			*/
 		]
 	] );
 	if ( true === WP_DEBUG ) {
@@ -76,13 +79,21 @@ function fseleasehub_register_block() {
 }
 
 function fseleasehub_render_callback($attributes, $content, $block) {
+	$fleet = esc_html($attributes["fleet"]);
+	$theme = esc_html($attributes["theme"]);
+	$layout = esc_html($attributes["layout"]);
+	$order = esc_html($attributes["order"]);
+	$limit = esc_html($attributes["limit"]);
+	$height = esc_html($attributes["height"]);
+	//$show = esc_html('price,location,description,status,conditions,Ccontact');
+	$show = esc_html(implode(',', $attributes["show"]));
 	ob_start();
 ?>
 <div>
 <iframe
-	src="https://fseleasehub.com/embed.php?board=<?= esc_html($attributes["fleet"]); ?>&theme=<?= esc_html($attributes["theme"]); ?>&layout=<?= esc_html($attributes["layout"]); ?>&sort=<?= esc_html($attributes["order"]); ?>&limit=<?= esc_html($attributes["limit"]); ?>&show=price%2Clocation%2Cdescription%2Cstatus%2Cconditions%2Ccontact"
+	src="https://fseleasehub.com/embed.php?board=<?= $fleet; ?>&theme=<?= $theme; ?>&layout=<?= $layout; ?>&sort=<?= $order; ?>&limit=<?= $limit; ?>&show=<?= $show; ?>"
 	width="100%"
-	height="<?= esc_html($attributes["height"]); ?>"
+	height="<?= $height; ?>"
 	style="border:1px solid #e3e8ef;border-radius:12px;"
 	loading="lazy"
 	title="Aircraft for lease - FSELeaseHub">
