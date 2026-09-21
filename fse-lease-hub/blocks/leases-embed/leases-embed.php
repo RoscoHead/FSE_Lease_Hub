@@ -47,6 +47,7 @@ function fseleasehub_register_block() {
 				'enum'    => ['newest', 'price_asc', 'price_desc', 'registration'],
 				'default' => 'newest',
 			],
+			/*
 			'show' => [
 				'label'   => 'Information to show',
 				'type'    => 'array',
@@ -56,6 +57,37 @@ function fseleasehub_register_block() {
 				'enum'    => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
 				'default' => ['Price', 'Location'],
 				'autoGenerateControl' => true,
+			],
+			*/
+			'price' => [
+				'label'   => 'Show price',
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'location' => [
+				'label'   => 'Show location',
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'description' => [
+				'label'   => 'Show description',
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'status' => [
+				'label'   => 'Show status',
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'conditions' => [
+				'label'   => 'Show conditions',
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'contact' => [
+				'label'   => 'Show contact',
+				'type'    => 'boolean',
+				'default' => true,
 			],
 			'limit' => [
 				'label'   => 'Max aircraft',
@@ -67,7 +99,10 @@ function fseleasehub_register_block() {
 				'type'    => 'integer',
 				'default' => 700,
 			],
-		]
+		],
+		'supports' => [
+			'autoRegister' => true,
+		],
 	] );
 	if ( true === WP_DEBUG ) {
 		if ($block === false){
@@ -85,8 +120,14 @@ function fseleasehub_render_callback($attributes, $content, $block) {
 	$order = esc_html($attributes["order"]);
 	$limit = esc_html($attributes["limit"]);
 	$height = esc_html($attributes["height"]);
-	//$show = esc_html('price,location,description,status,conditions,Ccontact');
-	$show = esc_html(implode(',', $attributes["show"]));
+	//$show = esc_html(implode(',', $attributes["show"]));
+	$showlist = [];
+	foreach (['price','location','description','status','conditions','contact'] as $attr) {
+		if ($attributes[$attr] === true) {
+			$showlist[] = $attr;
+		}
+	}
+	$show = esc_html(implode(',', $showlist));
 	ob_start();
 ?>
 <div>
