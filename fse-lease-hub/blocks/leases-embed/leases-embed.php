@@ -12,7 +12,7 @@ function fseleasehub_register_block() {
 	$block = register_block_type( 'fse-lease-hub/leases', [
 		'api_version' => 3,
 		'title' => 'FSE Lease Hub Leases',
-		'category' => 'embeds',
+		'category' => 'embed',
 		'icon' => 'airplane',
 		'keywords' => [
 			'FSE',
@@ -47,18 +47,17 @@ function fseleasehub_register_block() {
 				'enum'    => ['newest', 'price_asc', 'price_desc', 'registration'],
 				'default' => 'newest',
 			],
-			/*
 			'show' => [
 				'label'   => 'Information to show',
 				'type'    => 'array',
 				'items'   => [
-					'type' => 'string',
+					'type'  => 'string',
+					'enum'  => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
 				],
-				'enum'    => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
-				'default' => ['Price', 'Location'],
+				'default' => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
 				'autoGenerateControl' => true,
 			],
-			*/
+			/*
 			'price' => [
 				'label'   => 'Show price',
 				'type'    => 'boolean',
@@ -89,6 +88,7 @@ function fseleasehub_register_block() {
 				'type'    => 'boolean',
 				'default' => true,
 			],
+			*/
 			'limit' => [
 				'label'   => 'Max aircraft',
 				'type'    => 'integer',
@@ -99,9 +99,6 @@ function fseleasehub_register_block() {
 				'type'    => 'integer',
 				'default' => 700,
 			],
-		],
-		'supports' => [
-			'autoRegister' => true,
 		],
 	] );
 	if ( true === WP_DEBUG ) {
@@ -120,7 +117,8 @@ function fseleasehub_render_callback($attributes, $content, $block) {
 	$order = esc_html($attributes["order"]);
 	$limit = esc_html($attributes["limit"]);
 	$height = esc_html($attributes["height"]);
-	//$show = esc_html(implode(',', $attributes["show"]));
+	$show = esc_html(implode(',', $attributes["show"]));
+	/*
 	$showlist = [];
 	foreach (['price','location','description','status','conditions','contact'] as $attr) {
 		if ($attributes[$attr] === true) {
@@ -128,6 +126,7 @@ function fseleasehub_render_callback($attributes, $content, $block) {
 		}
 	}
 	$show = esc_html(implode(',', $showlist));
+	*/
 	ob_start();
 ?>
 <div>
