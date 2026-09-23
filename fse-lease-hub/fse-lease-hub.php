@@ -13,7 +13,10 @@ if ( ! defined( 'WPINC' ) ) {
      die;
 }
 
-require_once __DIR__ . '/blocks/leases-embed/leases-embed.php';
+define( 'FLH_BASE_PATH', plugin_dir_path( __FILE__ ) );
+require_once FLH_BASE_PATH . 'includes/fse-lease-hub-plugin.php';
+add_action( 'plugins_loaded', function () {
+	FLH_Plugin::get_instance();
+} );
 
-add_action( 'init', 'fseleasehub_register_block' );
 ?>
