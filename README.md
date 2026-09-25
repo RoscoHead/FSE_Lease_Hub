@@ -17,7 +17,9 @@ Once the FSE Lease Hub plugin is installed, activate it on the plugins page to a
 ### Leases block
 
 The leases block allows you to easily include a list of your currently available aircraft leases on any post or page. When editing a post, simply display the block selection bar, and search "FSE", or scroll down to the "Embads" category to find the "FSE Lease Hub Leases" block.
+
 ![Select leases block](./assets/images/leases_icon.jpg)
 
 After adding it to your post, first you must enter your FSE Lease Hub fleet code, which can be found on the FSE Lease Hub tools page. Then you can choose the other block options as desired. The preview will display your settings as you select them, allowing you to easily customise it to your needs.
+
 ![Choose leases block settings](./assets/images/leases_editor.jpg)
