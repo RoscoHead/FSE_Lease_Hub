@@ -13,7 +13,7 @@ class FLH_Plugin {
 
 	// class constructor
 	public function __construct() {
-		// Register blocks
+		// Register blocks (currently only 1)
 		FLH_Lease_Embed::get_instance();
 	}
 	

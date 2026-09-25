@@ -15,8 +15,12 @@ class FLH_Lease_Embed {
 	// class constructor
 	public function __construct() {
 		// Depends on WP version.
-		//$version = wp_get_wp_version();
-		//$this->use_checkbox_show = false;
+		if ( version_compare(get_bloginfo( 'version' ),'7.2') >= 0) {
+			// Multi-select GUI bug fixed in 7.2 see https://github.com/WordPress/gutenberg/pull/83394
+			//$this->use_checkbox_show = false;
+		}
+
+		// Register it
 		$this->fseleasehub_register_block();
 	}
 
@@ -25,6 +29,8 @@ class FLH_Lease_Embed {
 			// Block editor is not available.
 			return;
 		}
+
+		// Setup attributes first the common ones
 		$attributes = [
 			'fleet' => [
 				'label'   => 'Fleet',
@@ -49,52 +55,11 @@ class FLH_Lease_Embed {
 				'enum'    => ['newest', 'price_asc', 'price_desc', 'registration'],
 				'default' => 'newest',
 			],
-			'show' => [
-				'label'   => 'Information to show',
-				'type'    => 'array',
-				'items'   => [
-					'type'  => 'string',
-					'enum'  => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
-				],
-				'default' => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
-				'autoGenerateControl' => true,
-			],
-			'limit' => [
-				'label'   => 'Max aircraft',
-				'type'    => 'integer',
-				'default' => 20,
-			],
-			'height' => [
-				'label'   => 'Height',
-				'type'    => 'integer',
-				'default' => 700,
-			],
 		];
+
+		// Depending on version, use checkboxes or multi-select
 		if ($this->use_checkbox_show === true) {
-			$attributes = [
-				'fleet' => [
-					'label'   => 'Fleet',
-					'type'    => 'integer',
-					'default' => 0,
-				],
-				'theme' => [
-					'label'   => 'Theme',
-					'type'    => 'string',
-					'enum'    => ['light', 'dark'],
-					'default' => 'light',
-				],
-				'layout' => [
-					'label'   => 'Layout',
-					'type'    => 'string',
-					'enum'    => ['cards', 'list', 'compact'],
-					'default' => 'cards',
-				],
-				'order' => [
-					'label'   => 'Sort order',
-					'type'    => 'string',
-					'enum'    => ['newest', 'price_asc', 'price_desc', 'registration'],
-					'default' => 'newest',
-				],
+			$attributes += [
 				'price' => [
 					'label'   => 'Show price',
 					'type'    => 'boolean',
@@ -125,18 +90,38 @@ class FLH_Lease_Embed {
 					'type'    => 'boolean',
 					'default' => true,
 				],
-				'limit' => [
-					'label'   => 'Max aircraft',
-					'type'    => 'integer',
-					'default' => 20,
-				],
-				'height' => [
-					'label'   => 'Height',
-					'type'    => 'integer',
-					'default' => 700,
+			];
+		}
+		else {
+			$attributes += [
+				'show' => [
+					'label'   => 'Information to show',
+					'type'    => 'array',
+					'items'   => [
+						'type'  => 'string',
+						'enum'  => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
+					],
+					'default' => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
+					'autoGenerateControl' => true,
 				],
 			];
 		}
+
+		// Now add common ones at the bottom
+		$attributes += [
+			'limit' => [
+				'label'   => 'Max aircraft',
+				'type'    => 'integer',
+				'default' => 20,
+			],
+			'height' => [
+				'label'   => 'Height',
+				'type'    => 'integer',
+				'default' => 700,
+			],
+		];
+
+		// Register the block
 		$block = register_block_type( 'fse-lease-hub/leases', [
 			'api_version' => 3,
 			'title' => 'FSE Lease Hub Leases',
@@ -153,6 +138,8 @@ class FLH_Lease_Embed {
 			],
 			'attributes'      => $attributes,
 		] );
+
+		// For debugging
 		if ( true === WP_DEBUG ) {
 			if ($block === false){
 				error_log( 'Error' );
@@ -163,12 +150,15 @@ class FLH_Lease_Embed {
 	}
 
 	public function fseleasehub_render_callback($attributes, $content, $block) {
+		// Set variables from attributes to use in iframe
 		$fleet = esc_html($attributes["fleet"]);
 		$theme = esc_html($attributes["theme"]);
 		$layout = esc_html($attributes["layout"]);
 		$order = esc_html($attributes["order"]);
 		$limit = esc_html($attributes["limit"]);
 		$height = esc_html($attributes["height"]);
+
+		// Depends on version either get checkboxes or multi-select
 		$show = '';
 		if ($this->use_checkbox_show === true) {
 			$showlist = [];
@@ -182,6 +172,8 @@ class FLH_Lease_Embed {
 		else {
 			$show = esc_html(implode(',', $attributes["show"]));
 		}
+
+		// Output the HTML using the variables
 		ob_start();
 ?>
 <div>
