@@ -23,3 +23,24 @@ The leases block allows you to easily include a list of your currently available
 After adding it to your post, first you must enter your FSE Lease Hub fleet code, which can be found on the FSE Lease Hub tools page. Then you can choose the other block options as desired. The preview will display your settings as you select them, allowing you to easily customise it to your needs.
 
 ![Choose leases block settings](./assets/images/leases_editor.jpg)
+
+## Global defaults
+
+Go to `Ajustes > FSE Lease Hub` and set your Fleet (board ID from the tools page), theme, layout, order, limit, height and fields to show. The block and the shortcode use these when they omit attributes.
+
+## Shortcode (for Classic themes, Elementor/Divi, widgets)
+
+No attributes = uses global defaults:
+
+```
+[fse_lease_hub]
+```
+
+Override only what you need (aliases: `board=fleet`, `sort=order`):
+
+```
+[fse_lease_hub fleet="123" layout="list" theme="dark" limit="10" height="600" show="price,location,status"]
+[fse_lease_hub_leases fleet="123"]
+```
+
+Per-field alternative to `show="..."`: `show_price="0" show_location="1" ...`. Works in Classic editor, Gutenberg Shortcode block, Text widgets and Elementor/Divi shortcode widgets. Same `<iframe>` output as the block.

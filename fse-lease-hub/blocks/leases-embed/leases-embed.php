@@ -30,30 +30,42 @@ class FLH_Lease_Embed {
 			return;
 		}
 
-		// Setup attributes first the common ones
+		// Setup attributes first the common ones (defaults inherit Ajustes > FSE Lease Hub)
+		$global = function_exists( 'FLH_Embed_Renderer' ) ? FLH_Embed_Renderer::get_defaults() : [];
+		$def_fleet  = isset( $global['fleet'] ) ? absint( $global['fleet'] ) : 0;
+		$def_theme  = isset( $global['theme'] ) ? $global['theme'] : 'light';
+		$def_layout = isset( $global['layout'] ) ? $global['layout'] : 'cards';
+		$def_order  = isset( $global['order'] ) ? $global['order'] : 'newest';
+		$def_limit  = isset( $global['limit'] ) ? absint( $global['limit'] ) : 20;
+		$def_height = isset( $global['height'] ) ? absint( $global['height'] ) : 700;
+		$def_show   = isset( $global['show_list'] ) ? $global['show_list'] : [ 'price', 'location', 'description', 'status', 'conditions', 'contact' ];
+		$def_flag = function ( $key ) use ( $def_show ) {
+			return in_array( $key, $def_show, true );
+		};
+
 		$attributes = [
 			'fleet' => [
 				'label'   => 'Fleet',
 				'type'    => 'integer',
-				'default' => 0,
+				'default' => $def_fleet,
 			],
 			'theme' => [
 				'label'   => 'Theme',
 				'type'    => 'string',
 				'enum'    => ['light', 'dark'],
-				'default' => 'light',
+				'default' => $def_theme,
 			],
 			'layout' => [
 				'label'   => 'Layout',
 				'type'    => 'string',
 				'enum'    => ['cards', 'list', 'compact'],
-				'default' => 'cards',
+				'default' => $def_layout,
 			],
 			'order' => [
 				'label'   => 'Sort order',
 				'type'    => 'string',
 				'enum'    => ['newest', 'price_asc', 'price_desc', 'registration'],
-				'default' => 'newest',
+				'default' => $def_order,
 			],
 		];
 
@@ -63,32 +75,32 @@ class FLH_Lease_Embed {
 				'price' => [
 					'label'   => 'Show price',
 					'type'    => 'boolean',
-					'default' => true,
+					'default' => $def_flag('price'),
 				],
 				'location' => [
 					'label'   => 'Show location',
 					'type'    => 'boolean',
-					'default' => true,
+					'default' => $def_flag('location'),
 				],
 				'description' => [
 					'label'   => 'Show description',
 					'type'    => 'boolean',
-					'default' => true,
+					'default' => $def_flag('description'),
 				],
 				'status' => [
 					'label'   => 'Show status',
 					'type'    => 'boolean',
-					'default' => true,
+					'default' => $def_flag('status'),
 				],
 				'conditions' => [
 					'label'   => 'Show conditions',
 					'type'    => 'boolean',
-					'default' => true,
+					'default' => $def_flag('conditions'),
 				],
 				'contact' => [
 					'label'   => 'Show contact',
 					'type'    => 'boolean',
-					'default' => true,
+					'default' => $def_flag('contact'),
 				],
 			];
 		}
@@ -112,12 +124,12 @@ class FLH_Lease_Embed {
 			'limit' => [
 				'label'   => 'Max aircraft',
 				'type'    => 'integer',
-				'default' => 20,
+				'default' => $def_limit,
 			],
 			'height' => [
 				'label'   => 'Height',
 				'type'    => 'integer',
-				'default' => 700,
+				'default' => $def_height,
 			],
 		];
 
@@ -150,6 +162,10 @@ class FLH_Lease_Embed {
 	}
 
 	public function fseleasehub_render_callback($attributes, $content, $block) {
+		if ( class_exists( 'FLH_Embed_Renderer' ) ) {
+			return FLH_Embed_Renderer::render( is_array( $attributes ) ? $attributes : [], $block );
+		}
+		// Fallback legacy (should never run, renderer is always loaded).
 		// Set variables from attributes to use in iframe
 		$fleet = esc_html($attributes["fleet"]);
 		$theme = esc_html($attributes["theme"]);
