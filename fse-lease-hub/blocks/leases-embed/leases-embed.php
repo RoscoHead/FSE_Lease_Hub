@@ -45,9 +45,11 @@ class FLH_Lease_Embed {
 
 		$attributes = [
 			'fleet' => [
-				'label'   => 'Fleet',
-				'type'    => 'integer',
-				'default' => $def_fleet,
+				'label'       => 'Fleet',
+				'type'        => 'integer',
+				'default'     => $def_fleet,
+				'description' => __( 'Put your Board ID here to display your list. You can find this ID in your FSELeaseHub Panel > Tools, where you can copy and paste your board ID here.', 'fse-lease-hub' ),
+				'help'        => __( 'Put your Board ID here to display your list. You can find this ID in your FSELeaseHub Panel > Tools, where you can copy and paste your board ID here.', 'fse-lease-hub' ),
 			],
 			'theme' => [
 				'label'   => 'Theme',
