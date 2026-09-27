@@ -1,0 +1,112 @@
+/* FSE Lease Hub — modern settings page (loaded only on Ajustes > FSE Lease Hub). */
+
+.flh-wrap {
+	max-width: 960px;
+}
+
+.flh-header {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	background: #fff;
+	border: 1px solid #e3e8ef;
+	border-radius: 12px;
+	padding: 20px 24px;
+	margin: 16px 0;
+}
+
+.flh-logo {
+	width: 48px;
+	height: 48px;
+	flex: 0 0 48px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #2271b1, #135e96);
+	color: #fff;
+	font-weight: 700;
+	font-size: 17px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	letter-spacing: 0.5px;
+}
+
+.flh-header h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 22px;
+	line-height: 1.3;
+}
+
+.flh-subtitle {
+	margin: 4px 0 0;
+	color: #646970;
+}
+
+.flh-card {
+	background: #fff;
+	border: 1px solid #e3e8ef;
+	border-radius: 12px;
+	padding: 8px 24px 24px;
+	margin-bottom: 16px;
+}
+
+.flh-card > h2 {
+	font-size: 15px;
+	margin: 20px 0 8px;
+}
+
+.flh-card .form-table th {
+	font-weight: 600;
+	padding: 16px 12px 16px 0;
+}
+
+.flh-card input[type="number"],
+.flh-card select {
+	border-radius: 8px;
+	border-color: #d5dae1;
+	padding: 5px 10px;
+	max-width: 100%;
+}
+
+.flh-card input[type="number"] {
+	width: 140px;
+}
+
+.flh-card select {
+	width: auto;
+	min-width: 230px;
+}
+
+.flh-card .form-table td {
+	min-width: 0;
+}
+
+.flh-card input[type="checkbox"] {
+	border-radius: 4px;
+}
+
+.flh-code-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: #f6f7f7;
+	border: 1px solid #e3e8ef;
+	border-radius: 8px;
+	padding: 8px 8px 8px 12px;
+	margin: 8px 0;
+}
+
+.flh-code-row code {
+	flex: 1;
+	min-width: 0;
+	font-size: 13px;
+	overflow-x: auto;
+	white-space: nowrap;
+	background: transparent;
+	padding: 0;
+}
+
+.flh-hint {
+	color: #646970;
+	margin: 8px 0 0;
+}

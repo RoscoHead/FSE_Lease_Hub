@@ -16,6 +16,26 @@ class FLH_Settings {
 	public static function init() {
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ] );
 		add_action( 'admin_init', [ __CLASS__, 'admin_init' ] );
+		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_assets' ] );
+	}
+
+	public static function admin_assets( $hook ) {
+		if ( $hook !== 'settings_page_fse-lease-hub' ) {
+			return;
+		}
+		wp_enqueue_style(
+			'flh-settings',
+			plugins_url( 'assets/css/flh-settings.css', FLH_BASE_PATH . 'fse-lease-hub.php' ),
+			[],
+			defined( 'FLH_VERSION' ) ? FLH_VERSION : '1.2.0'
+		);
+		wp_enqueue_script(
+			'flh-settings',
+			plugins_url( 'assets/js/flh-settings.js', FLH_BASE_PATH . 'fse-lease-hub.php' ),
+			[],
+			defined( 'FLH_VERSION' ) ? FLH_VERSION : '1.2.0',
+			true
+		);
 	}
 
 	public static function admin_menu() {
@@ -39,13 +59,18 @@ class FLH_Settings {
 			'flh_main',
 			__( 'Default embed values', 'fse-lease-hub' ),
 			function () {
-				echo '<p>' . esc_html__( 'These values are used when the block or shortcode does not set its own. Fleet is your board ID from the FSE Lease Hub tools page.', 'fse-lease-hub' ) . '</p>';
+				printf(
+					'<p>%s <a href="%s" target="_blank" rel="noopener">FSELeaseHub</a> %s</p>',
+					esc_html__( 'Configure the settings. Board ID is an identifier you can find in your', 'fse-lease-hub' ),
+					esc_url( 'https://fseleasehub.com' ),
+					esc_html__( 'Panel > Tools', 'fse-lease-hub' )
+				);
 			},
 			'fse-lease-hub'
 		);
 
 		$fields = [
-			'fleet'  => __( 'Fleet (board ID)', 'fse-lease-hub' ),
+			'fleet'  => __( 'Board ID', 'fse-lease-hub' ),
 			'theme'  => __( 'Theme', 'fse-lease-hub' ),
 			'layout' => __( 'Layout', 'fse-lease-hub' ),
 			'order'  => __( 'Sort order', 'fse-lease-hub' ),
@@ -110,7 +135,6 @@ class FLH_Settings {
 					esc_attr( self::OPTION ),
 					absint( $value['fleet'] )
 				);
-				echo '<p class="description">' . esc_html__( 'Example: embed.php?board=123 -> put 123.', 'fse-lease-hub' ) . '</p>';
 				break;
 			case 'theme':
 				printf( '<select name="%s[theme]">', esc_attr( self::OPTION ) );
@@ -182,21 +206,34 @@ class FLH_Settings {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+		$ex_basic = '[fse_lease_hub]';
 		?>
-		<div class="wrap">
-			<h1><?php echo esc_html__( 'FSE Lease Hub', 'fse-lease-hub' ); ?></h1>
-			<form method="post" action="options.php">
-				<?php
-				settings_fields( self::GROUP );
-				do_settings_sections( 'fse-lease-hub' );
-				submit_button();
-				?>
-			</form>
-			<hr />
-			<h2><?php echo esc_html__( 'Shortcode usage', 'fse-lease-hub' ); ?></h2>
-			<p><code>[fse_lease_hub]</code> — <?php echo esc_html__( 'uses everything saved above.', 'fse-lease-hub' ); ?></p>
-			<p><code>[fse_lease_hub fleet="123" layout="list" theme="dark" limit="10" height="600" show="price,location,status"]</code></p>
-			<p class="description"><?php echo esc_html__( 'Aliases: board=fleet, sort=order, show_x=1/0 per field. Alias tag: [fse_lease_hub_leases]. Works in Classic editor, Gutenberg Shortcode block, Text widgets, Elementor/Divi shortcode widgets.', 'fse-lease-hub' ); ?></p>
+		<div class="wrap flh-wrap">
+			<div class="flh-header">
+				<span class="flh-logo" aria-hidden="true">FSE</span>
+				<div>
+					<h1><?php echo esc_html__( 'FSE Lease Hub', 'fse-lease-hub' ); ?></h1>
+					<p class="flh-subtitle"><?php echo esc_html__( 'Global defaults for the block and the shortcode.', 'fse-lease-hub' ); ?></p>
+				</div>
+			</div>
+			<div class="flh-card">
+				<form method="post" action="options.php">
+					<?php
+					settings_fields( self::GROUP );
+					do_settings_sections( 'fse-lease-hub' );
+					submit_button();
+					?>
+				</form>
+			</div>
+			<div class="flh-card">
+				<h2><?php echo esc_html__( 'Shortcode usage', 'fse-lease-hub' ); ?></h2>
+				<p><?php echo esc_html__( 'Paste this shortcode anywhere. It always shows the defaults saved above.', 'fse-lease-hub' ); ?></p>
+				<div class="flh-code-row">
+					<code><?php echo esc_html( $ex_basic ); ?></code>
+					<button type="button" class="button flh-copy" data-copy="<?php echo esc_attr( $ex_basic ); ?>"><?php echo esc_html__( 'Copy', 'fse-lease-hub' ); ?></button>
+				</div>
+				<p class="flh-hint"><?php echo esc_html__( 'Alias tag: [fse_lease_hub_leases]. Works in Classic editor, Gutenberg Shortcode block, Text widgets, Elementor/Divi shortcode widgets.', 'fse-lease-hub' ); ?></p>
+			</div>
 		</div>
 		<?php
 	}
