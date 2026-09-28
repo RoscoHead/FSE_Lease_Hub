@@ -1,18 +1,19 @@
 <?php
 /*
 Plugin Name: FSE Lease Hub
-Description: Access features of FSE Lease Hub from your Wordpress site
+Description: Access features of FSE Lease Hub from your Wordpress site. Block + shortcode [fse_lease_hub] with global defaults in Ajustes > FSE Lease Hub.
 Author: RoscoHead
-Version: 1.0.0
+Version: 1.2.0
 License: MIT
 Requires at least: 6.0
 */
 
-// If this file is called directly, abort.
+ // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
      die;
 }
 
+define( 'FLH_VERSION', '1.2.0' );
 define( 'FLH_BASE_PATH', plugin_dir_path( __FILE__ ) );
 require_once FLH_BASE_PATH . 'includes/fse-lease-hub-plugin.php';
 add_action( 'plugins_loaded', function () {
