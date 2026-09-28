@@ -218,7 +218,7 @@ class FLH_Embed_Renderer {
 
 		if ( $a['fleet'] <= 0 ) {
 			if ( function_exists( 'current_user_can' ) && current_user_can( 'edit_posts' ) ) {
-				return '<p class="flh-leases-notice">' . esc_html__( 'FSE Lease Hub: set your Fleet ID in Ajustes > FSE Lease Hub or in the block/shortcode attributes.', 'fse-lease-hub' ) . '</p>';
+				return '<p class="flh-leases-notice">' . esc_html__( 'FSE Lease Hub: set your Fleet ID in Settings > FSE Lease Hub or in the block/shortcode attributes.', 'fse-lease-hub' ) . '</p>';
 			}
 			return '<!-- FSE Lease Hub: missing fleet ID -->';
 		}
@@ -240,12 +240,19 @@ class FLH_Embed_Renderer {
 			$wrapper = get_block_wrapper_attributes( [ 'class' => 'flh-leases-embed' ] );
 		}
 
-		return sprintf(
-			'<div %s><iframe src="%s" width="100%%" height="%d" style="border:1px solid #e3e8ef;border-radius:12px;" loading="lazy" title="%s"></iframe></div>',
-			$wrapper,
-			esc_url( $src ),
-			absint( $a['height'] ),
-			esc_attr__( 'Aircraft for lease - FSELeaseHub', 'fse-lease-hub' )
-		);
+		ob_start();
+?>
+<div <?= $wrapper; ?>>
+	<iframe
+		src="<?= esc_url($src); ?>"
+		width="100%"
+		height="<?= absint( $a['height'] ); ?>"
+		style="border:1px solid #e3e8ef;border-radius:12px;"
+		loading="lazy"
+		title="<?= esc_attr__( 'Aircraft for lease - FSELeaseHub', 'fse-lease-hub' ) ?>">
+	</iframe>
+</div>
+<?php
+		return ob_get_clean();
 	}
 }

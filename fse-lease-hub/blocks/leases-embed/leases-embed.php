@@ -31,7 +31,7 @@ class FLH_Lease_Embed {
 		}
 
 		// Setup attributes first the common ones (defaults inherit Ajustes > FSE Lease Hub)
-		$global = function_exists( 'FLH_Embed_Renderer' ) ? FLH_Embed_Renderer::get_defaults() : [];
+		$global = class_exists( 'FLH_Embed_Renderer' ) ? FLH_Embed_Renderer::get_defaults() : [];
 		$def_fleet  = isset( $global['fleet'] ) ? absint( $global['fleet'] ) : 0;
 		$def_theme  = isset( $global['theme'] ) ? $global['theme'] : 'light';
 		$def_layout = isset( $global['layout'] ) ? $global['layout'] : 'cards';
@@ -111,9 +111,9 @@ class FLH_Lease_Embed {
 					'type'    => 'array',
 					'items'   => [
 						'type'  => 'string',
-						'enum'  => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
+						'enum'  => ['price', 'location', 'description', 'status', 'conditions', 'contact'],
 					],
-					'default' => ['Price', 'Location', 'Description', 'Status', 'Conditions', 'Contact'],
+					'default' => $def_show,
 					'autoGenerateControl' => true,
 				],
 			];
