@@ -85,8 +85,13 @@ class FLH_Embed_Renderer {
 		return strtolower( $fallback );
 	}
 
+	/** Init hooks: make sure frontend CSS/JS also load inside the block editor canvas. */
+	public static function init() {
+		add_action( 'enqueue_block_assets', [ __CLASS__, 'ensure_frontend_assets' ] );
+	}
+
 	/** Enqueue the shared frontend stylesheet + auto-height resizer (block and shortcode). */
-	private static function ensure_frontend_assets() {
+	public static function ensure_frontend_assets() {
 		$ver = 					defined( 'FLH_VERSION' ) ? FLH_VERSION : '1.10.5';
 		if ( function_exists( 'wp_register_style' ) ) {
 			$handle = 'flh-frontend';
@@ -452,7 +457,7 @@ class FLH_Embed_Renderer {
 				$logo_url = self::get_logo_url();
 				if ( $logo_url !== '' ) {
 					$logo_html = sprintf(
-						'<img class="flh-leases-logo-img" src="%s" alt="%s" loading="lazy" />',
+						'<img class="flh-leases-logo-img" src="%s" alt="%s" loading="lazy" width="500" height="180" style="height:56px;width:auto;max-width:min(320px,70vw);display:block;border-radius:8px;object-fit:contain;background:#fff;padding:4px 12px;flex:0 0 auto;" />',
 						esc_url( $logo_url ),
 						esc_attr__( 'FSELeaseHub logo', 'fse-lease-hub' )
 					);
@@ -501,6 +506,7 @@ class FLH_Embed_Renderer {
 		width="100%"
 		height="<?= $frame_height; ?>"
 		class="<?= esc_attr( $frame_class ); ?>"<?= $frame_extra; ?>
+		style="display:block;width:100%;margin:0;padding:0;border:0;border-radius:0;background:#fff;vertical-align:top;"
 		loading="lazy"
 		title="<?= esc_attr__( 'Aircraft for lease - FSELeaseHub', 'fse-lease-hub' ) ?>">
 	</iframe>

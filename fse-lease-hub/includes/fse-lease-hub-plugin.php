@@ -16,6 +16,11 @@ class FLH_Plugin {
 
 	// class constructor
 	public function __construct() {
+		// Shared frontend assets: also needed inside the Gutenberg canvas
+		// so the editor preview matches the published page.
+		if ( class_exists( 'FLH_Embed_Renderer' ) && method_exists( 'FLH_Embed_Renderer', 'init' ) ) {
+			FLH_Embed_Renderer::init();
+		}
 		// Global defaults (Settings > FSE Lease Hub)
 		FLH_Settings::init();
 		// Shortcodes: [fse_lease_hub] + alias [fse_lease_hub_leases]

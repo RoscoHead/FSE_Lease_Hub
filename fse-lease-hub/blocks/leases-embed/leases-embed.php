@@ -214,6 +214,7 @@ class FLH_Lease_Embed {
 			],
 			'render_callback' => [$this, 'fseleasehub_render_callback'],
 			'style' => 'file:./leases-embed.css',
+			'editor_style' => 'file:./leases-embed.css',
 			'supports' => [
 				'autoRegister' => true,
 			],
