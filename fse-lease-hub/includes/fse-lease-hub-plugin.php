@@ -16,7 +16,7 @@ class FLH_Plugin {
 
 	// class constructor
 	public function __construct() {
-		// Global defaults (Ajustes > FSE Lease Hub)
+		// Global defaults (Settings > FSE Lease Hub)
 		FLH_Settings::init();
 		// Shortcodes: [fse_lease_hub] + alias [fse_lease_hub_leases]
 		FLH_Shortcode::init();

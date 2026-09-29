@@ -1,0 +1,169 @@
+/* FSE Lease Hub — frontend embed (block + shortcode). */
+
+.flh-leases-embed {
+	--flh-border-color: #c9a03f;
+	--flh-border-width: 1px;
+	--flh-header-bg: #101828;
+	--flh-header-color: #ffffff;
+	border-radius: 12px;
+	overflow: hidden;
+	background: #fff;
+	padding: 0;
+}
+
+.flh-leases-embed.flh-has-border {
+	border: var(--flh-border-width, 1px) solid var(--flh-border-color);
+}
+
+.flh-leases-embed > :first-child {
+	margin-top: 0;
+}
+
+.flh-leases-embed > :last-child {
+	margin-bottom: 0;
+}
+
+.flh-leases-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	border: 0;
+	padding: 12px 16px;
+	background: var(--flh-header-bg, #101828);
+	position: relative;
+	overflow: hidden;
+}
+
+.flh-leases-header.flh-align-left {
+	justify-content: flex-start;
+}
+
+.flh-leases-header.flh-align-center {
+	justify-content: center;
+}
+
+.flh-leases-header.flh-align-right {
+	justify-content: flex-end;
+}
+
+.flh-leases-brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	text-decoration: none;
+	position: relative;
+	z-index: 1;
+}
+
+.flh-leases-logo {
+	width: 42px;
+	height: 42px;
+	flex: 0 0 42px;
+	border-radius: 10px;
+	background: linear-gradient(135deg, #2271b1, #135e96);
+	color: #fff;
+	font-weight: 700;
+	font-size: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	letter-spacing: 0.5px;
+}
+
+.flh-leases-logo-img {
+	height: 56px;
+	width: auto;
+	max-width: min(320px, 70vw);
+	flex: 0 0 auto;
+	display: block;
+	border-radius: 8px;
+	object-fit: contain;
+	background: #fff;
+	padding: 4px 12px;
+}
+
+.flh-leases-tagline {
+	color: var(--flh-header-color, #ffffff);
+	font-weight: 600;
+	font-size: 17px;
+	letter-spacing: 0.2px;
+	position: relative;
+	overflow: hidden;
+}
+
+/* Static glow. */
+.flh-leases-header .flh-leases-tagline {
+	text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+/* Animated shine sweep across the full header width. */
+.flh-leases-header.flh-has-shine::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -60%;
+	width: 45%;
+	background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+	transform: skewX(-20deg);
+	animation: flh-shine 2.8s ease-in-out infinite;
+	pointer-events: none;
+	z-index: 0;
+}
+
+@keyframes flh-shine {
+	0% { left: -60%; }
+	60%, 100% { left: 130%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flh-leases-header.flh-has-shine::after {
+		animation: none;
+	}
+}
+
+.flh-leases-frame {
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: #fff;
+	vertical-align: top;
+}
+
+.flh-leases-frame.flh-auto-frame {
+	min-height: 200px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.flh-leases-frame.flh-auto-frame {
+		transition: height 0.25s ease;
+	}
+}
+
+.flh-leases-footer {
+	padding: 8px 14px 10px;
+	text-align: center;
+	background: #f8fafc;
+}
+
+.flh-leases-footer p {
+	margin: 2px 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #646970;
+}
+
+.flh-leases-footer a {
+	color: #2271b1;
+}
+
+.flh-leases-notice {
+	padding: 12px 16px;
+	border: 1px dashed #c3c4c7;
+	border-radius: 8px;
+	background: #fff;
+}

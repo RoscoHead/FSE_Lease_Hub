@@ -30,14 +30,28 @@ class FLH_Lease_Embed {
 			return;
 		}
 
-		// Setup attributes first the common ones (defaults inherit Ajustes > FSE Lease Hub)
+		// Setup attributes first the common ones (defaults inherit Settings > FSE Lease Hub)
 		$global = class_exists( 'FLH_Embed_Renderer' ) ? FLH_Embed_Renderer::get_defaults() : [];
 		$def_fleet  = isset( $global['fleet'] ) ? absint( $global['fleet'] ) : 0;
 		$def_theme  = isset( $global['theme'] ) ? $global['theme'] : 'light';
 		$def_layout = isset( $global['layout'] ) ? $global['layout'] : 'cards';
 		$def_order  = isset( $global['order'] ) ? $global['order'] : 'newest';
 		$def_limit  = isset( $global['limit'] ) ? absint( $global['limit'] ) : 20;
-		$def_height = isset( $global['height'] ) ? absint( $global['height'] ) : 700;
+		$def_height_raw = isset( $global['height'] ) ? $global['height'] : 'auto';
+		$def_height     = ( is_string( $def_height_raw ) && strtolower( trim( (string) $def_height_raw ) ) === 'auto' ) ? 'auto' : absint( $def_height_raw );
+		if ( $def_height !== 'auto' && ( $def_height < 100 || $def_height > 3000 ) ) {
+			$def_height = 'auto';
+		}
+		$def_show_header  = isset( $global['show_header'] ) ? (bool) $global['show_header'] : true;
+		$def_header_shine = isset( $global['header_shine'] ) ? (bool) $global['header_shine'] : true;
+		$def_header_align = isset( $global['header_align'] ) && in_array( $global['header_align'], [ 'left', 'center', 'right' ], true ) ? $global['header_align'] : 'center';
+		$def_show_border  = isset( $global['show_border'] ) ? (bool) $global['show_border'] : true;
+		$def_border_color = isset( $global['border_color'] ) ? (string) $global['border_color'] : '#c9a03f';
+		$def_header_bg    = isset( $global['header_bg'] ) ? (string) $global['header_bg'] : '#101828';
+		$def_header_color = isset( $global['header_color'] ) ? (string) $global['header_color'] : '#ffffff';
+		$def_border_width = isset( $global['border_width'] ) ? absint( $global['border_width'] ) : 1;
+		$def_show_links = isset( $global['show_links'] ) ? (bool) $global['show_links'] : false;
+		$def_show_logo  = isset( $global['show_logo'] ) ? (bool) $global['show_logo'] : true;
 		$def_show   = isset( $global['show_list'] ) ? $global['show_list'] : [ 'price', 'location', 'description', 'status', 'conditions', 'contact' ];
 		$def_flag = function ( $key ) use ( $def_show ) {
 			return in_array( $key, $def_show, true );
@@ -102,6 +116,16 @@ class FLH_Lease_Embed {
 					'type'    => 'boolean',
 					'default' => $def_flag('contact'),
 				],
+				'showLinks' => [
+					'label'   => 'Show links (View full listing)',
+					'type'    => 'boolean',
+					'default' => $def_show_links,
+				],
+				'showLogo' => [
+					'label'   => 'Show header logo (assets/img/site-logo.png)',
+					'type'    => 'boolean',
+					'default' => $def_show_logo,
+				],
 			];
 		}
 		else {
@@ -119,6 +143,51 @@ class FLH_Lease_Embed {
 			];
 		}
 
+		// Header banner + outer border options.
+		$attributes += [
+			'showHeader' => [
+				'label'   => 'Show header banner',
+				'type'    => 'boolean',
+				'default' => $def_show_header,
+			],
+			'headerShine' => [
+				'label'   => 'Header shine effect',
+				'type'    => 'boolean',
+				'default' => $def_header_shine,
+			],
+			'headerAlign' => [
+				'label'   => 'Header alignment',
+				'type'    => 'string',
+				'enum'    => [ 'left', 'center', 'right' ],
+				'default' => $def_header_align,
+			],
+			'headerBg' => [
+				'label'   => 'Header background (hex, e.g. #101828)',
+				'type'    => 'string',
+				'default' => $def_header_bg,
+			],
+			'headerColor' => [
+				'label'   => 'Header text color (hex, e.g. #ffffff)',
+				'type'    => 'string',
+				'default' => $def_header_color,
+			],
+			'showBorder' => [
+				'label'   => 'Show outer border',
+				'type'    => 'boolean',
+				'default' => $def_show_border,
+			],
+			'borderColor' => [
+				'label'   => 'Border color (hex, e.g. #e3e8ef)',
+				'type'    => 'string',
+				'default' => $def_border_color,
+			],
+			'borderWidth' => [
+				'label'   => 'Border width in px (0-12)',
+				'type'    => 'integer',
+				'default' => $def_border_width,
+			],
+		];
+
 		// Now add common ones at the bottom
 		$attributes += [
 			'limit' => [
@@ -127,9 +196,9 @@ class FLH_Lease_Embed {
 				'default' => $def_limit,
 			],
 			'height' => [
-				'label'   => 'Height',
-				'type'    => 'integer',
-				'default' => $def_height,
+				'label'   => 'Height in px or "auto" (adapt to content)',
+				'type'    => 'string',
+				'default' => (string) $def_height,
 			],
 		];
 
