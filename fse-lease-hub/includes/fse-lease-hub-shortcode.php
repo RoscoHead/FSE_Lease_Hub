@@ -74,6 +74,8 @@ class FLH_Shortcode {
 		}
 		// Per-field show flags (show_price="0", price="0", ...) are passed
 		// through untouched; the renderer merges them over the defaults.
+		// render() already sanitizes internally, so no double sanitize needed
+		// (main's sanitize($a) call is subsumed here).
 		return FLH_Embed_Renderer::render( $atts );
 	}
 }

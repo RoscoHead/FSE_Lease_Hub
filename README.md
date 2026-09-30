@@ -30,16 +30,22 @@ You can find this Board ID in your FSELeaseHub account under Tools, in the WordP
 
 ![Choose leases block settings](./assets/images/leases_editor.jpg)
 
-## ShortCode
+## ShortCodes
 
-### ShortCode
+### Leases ShortCode
 
 Shortcodes were created for WordPress themes that do not use the block system. This way, you can add this shortcode to your text block and display this information in Divi or other themes that use custom page builders or block systems.
+
+It will use the values stored in the Settings / FSE Lease Hub page (see below) unless over-ridden by ShortCode attributes. All attributes are optional; if omitted or not in the correct format the default Settings value will be used.
+
+![Enter leases ShortCode](./assets/images/shortcode_attributes.jpg)
+
+## Settings
 
 You can find its configuration and usage in your WordPress menu: Settings
 
 ![Choose leases block settings](./assets/images/shortcode.jpg)
 
-The block will ask you for a Board ID.
+The page will ask you for a Board ID.
 
 You can find this Board ID in your FSELeaseHub account under Tools, in the WordPress section.
