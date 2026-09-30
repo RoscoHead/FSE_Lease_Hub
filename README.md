@@ -1,3 +1,5 @@
+![FSE Lease Hub plugin logo](./assets/images/logo-fse-leasehub-plugin.jpeg)
+
 # FSE Lease Hub plugin
 
 ## Welcome!

@@ -1,6 +1,32 @@
 /**
- * FSE Lease Hub settings helpers (copy shortcode buttons).
+ * FSE Lease Hub settings helpers (copy shortcode buttons + color picker).
  */
+(function () {
+	if (typeof jQuery !== 'undefined' && jQuery.fn && jQuery.fn.wpColorPicker) {
+		jQuery(function ($) {
+			$('.flh-color-field').wpColorPicker();
+		});
+	}
+	// Height mode selector: disable the fixed px input when "Auto" is chosen.
+	function syncHeightMode() {
+		var mode = document.querySelector('.flh-height-mode');
+		var fixed = document.querySelector('.flh-height-fixed');
+		if (!mode || !fixed) {
+			return;
+		}
+		fixed.disabled = (mode.value === 'auto');
+	}
+	document.addEventListener('change', function (e) {
+		if (e.target && e.target.classList && e.target.classList.contains('flh-height-mode')) {
+			syncHeightMode();
+		}
+	});
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', syncHeightMode);
+	} else {
+		syncHeightMode();
+	}
+})();
 document.addEventListener('click', function (e) {
 	var btn = e.target && e.target.closest ? e.target.closest('.flh-copy') : null;
 	if (!btn) {

@@ -1,4 +1,4 @@
-/* FSE Lease Hub — modern settings page (loaded only on Ajustes > FSE Lease Hub). */
+/* FSE Lease Hub — modern settings page (loaded only on Settings > FSE Lease Hub). */
 
 .flh-wrap {
 	max-width: 960px;
@@ -28,6 +28,18 @@
 	align-items: center;
 	justify-content: center;
 	letter-spacing: 0.5px;
+}
+
+.flh-logo-img {
+	height: 64px;
+	width: auto;
+	max-width: 320px;
+	flex: 0 0 auto;
+	display: block;
+	border-radius: 8px;
+	object-fit: contain;
+	background: #fff;
+	padding: 4px 12px;
 }
 
 .flh-header h1 {
