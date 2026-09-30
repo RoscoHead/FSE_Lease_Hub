@@ -34,7 +34,7 @@ You can find this Board ID in your FSELeaseHub account under Tools, in the WordP
 
 Shortcodes were created for WordPress themes that do not use the block system. This way, you can add this shortcode to your text block and display this information in Divi or other themes that use custom page builders or block systems.
 
-It will use the values stored in the Settings / FSE Lease Hub page (see below) unless over-ridden by ShortCode attributes. All attributes are optional, and if not in the correct format the Settings value will be used.
+It will use the values stored in the Settings / FSE Lease Hub page (see below) unless over-ridden by ShortCode attributes. All attributes are optional; if omitted or not in the correct format the default Settings value will be used.
 
 ![Enter leases ShortCode](./assets/images/shortcode_attributes.jpg)
 
