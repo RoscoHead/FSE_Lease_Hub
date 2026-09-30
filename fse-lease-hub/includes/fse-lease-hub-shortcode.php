@@ -20,6 +20,16 @@ class FLH_Shortcode {
 	}
 
 	public static function handle( $atts = null, $content = null, $tag = '' ) {
-		return FLH_Embed_Renderer::render( FLH_Embed_Renderer::get_defaults() );
+		$global = FLH_Embed_Renderer::get_defaults();
+		$a = shortcode_atts( array(
+			'fleet'  => $global['fleet'],
+			'theme'  => $global['theme'],
+			'layout' => $global['layout'],
+			'order'  => $global['order'],
+			'limit'  => $global['limit'],
+			'height' => $global['height'],
+			'show'   => $global['show'],
+		), $atts );
+		return FLH_Embed_Renderer::render( FLH_Embed_Renderer::sanitize($a) );
 	}
 }

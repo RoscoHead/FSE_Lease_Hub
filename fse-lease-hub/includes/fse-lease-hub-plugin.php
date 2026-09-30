@@ -7,7 +7,7 @@ if ( ! defined( 'WPINC' ) ) {
 require_once FLH_BASE_PATH . 'includes/fse-lease-hub-renderer.php';
 require_once FLH_BASE_PATH . 'includes/fse-lease-hub-settings.php';
 require_once FLH_BASE_PATH . 'includes/fse-lease-hub-shortcode.php';
-require_once FLH_BASE_PATH . '/blocks/leases-embed/leases-embed.php';
+require_once FLH_BASE_PATH . 'blocks/leases-embed/leases-embed.php';
 
 class FLH_Plugin {
 
